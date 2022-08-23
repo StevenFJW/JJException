@@ -135,7 +135,9 @@ static const char DeallocKVOKey;
  release the dispatch_semaphore
  */
 - (void)dealloc{
+    dispatch_semaphore_wait(self.kvoLock, DISPATCH_TIME_FOREVER);
     [self.kvoObjectSet release];
+    dispatch_semaphore_signal(self.kvoLock);
     dispatch_release(self.kvoLock);
     [super dealloc];
 }
